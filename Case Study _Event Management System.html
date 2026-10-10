@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Barangay Pinagbuhatan Scheduling System</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      margin: 0;
+      padding: 20px 30px;
+      color: #1e293b;
+    }
+
+    /* FULL WIDTH CONTAINER */
+    .box {
+      background: #ffffff;
+      width: 100%;
+      margin: 0 auto;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+    }
+
+    h2 {
+      color: #0f172a;
+      margin: 0 0 15px 0;
+      font-size: 24px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 15px 0 20px 0;
+    }
+
+    /* SUMMARY CARDS */
+    .summary-bar {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      flex: 1;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px 18px;
+    }
+
+    .stat-card small {
+      display: block;
+      color: #64748b;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .stat-card span {
+      font-size: 22px;
+      font-weight: bold;
+      color: #0b4f6c;
+    }
+
+    /* SECTION HEADERS */
+    .section-label {
+      display: block;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      color: #0b4f6c;
+      margin: 15px 0 8px 0;
+    }
+
+    .row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .col {
+      flex: 1;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 13px;
+      background-color: #fff;
+      color: #334155;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    input:focus, select:focus {
+      border-color: #0b4f6c;
+      box-shadow: 0 0 0 2px rgba(11, 79, 108, 0.15);
+    }
+
+    /* BUTTONS */
+    .btn-action-main {
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      background-color: #0b4f6c;
+      color: white;
+    }
+
+    .btn-action-cancel {
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      cursor: pointer;
+      background-color: #f1f5f9;
+      color: #475569;
+      margin-left: 8px;
+    }
+
+    /* FULL WIDTH TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      border: 1px solid #e2e8f0;
+    }
+
+    th {
+      background-color: #f8fafc;
+      color: #475569;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      text-align: left;
+    }
+
+    td {
+      padding: 10px 12px;
+      font-size: 13px;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+    }
+
+    tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    /* BADGES & ROW BUTTONS */
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 4px;
+    }
+    .pending { background: #fef3c7; color: #92400e; }
+    .completed { background: #dcfce7; color: #166534; }
+
+    td button {
+      padding: 5px 10px;
+      font-size: 12px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      cursor: pointer;
+      margin-right: 4px;
+      font-weight: 600;
+    }
+
+    td button:hover {
+      background: #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Barangay Pinagbuhatan - Court Scheduling Portal</h2>
+
+  <!-- DASHBOARD SUMMARY CARDS -->
+  <div class="summary-bar">
+    <div class="stat-card">
+      <small>Total Bookings</small>
+      <span id="totalEvents">0</span>
+    </div>
+    <div class="stat-card">
+      <small>Total Participants</small>
+      <span id="totalPeople">0</span>
+    </div>
+    <div class="stat-card">
+      <small>Total Fees Collected</small>
+      <span>Php <span id="totalFees">0</span></span>
+    </div>
+  </div>
+
+  <h4 id="formTitle" style="margin: 0 0 10px 0;">Add Event Schedule</h4>
+  <input type="hidden" id="editIndex" value="-1">
+
+  <!-- REGISTRATION DETAILS -->
+  <span class="section-label">1. Registration Information</span>
+  <div class="row">
+    <div class="col">
+      <label>Full Name:</label>
+      <input type="text" id="name" placeholder="John Michel Engreso">
+    </div>
+    <div class="col">
+      <label>Gender:</label>
+      <select id="gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+    <div class="col">
+      <label>Contact Number:</label>
+      <input type="text" id="contact" placeholder="09123456789">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <label>Address:</label>
+      <input type="text" id="address" placeholder="Mt. Everest, Pinagbuhatan, Pasig City">
+    </div>
+  </div>
+
+  <!-- EVENT DETAILS -->
+  <span class="section-label">2. Schedule & Venue Details</span>
+  <div class="row">
+    <div class="col">
+      <label>Event Name:</label>
+      <input type="text" id="event" placeholder="Inter-Barangay Basketball Cup">
+    </div>
+    <div class="col">
+      <label>Category:</label>
+      <select id="category">
+        <option value="Sports">Sports</option>
+        <option value="Health Mission">Health Mission</option>
+        <option value="Community Service">Community Service</option>
+        <option value="General Assembly">General Assembly</option>
+      </select>
+    </div>
+    <div class="col">
+      <label>Court / Venue:</label>
+      <select id="venue">
+        <option value="Nagpayong Court">Nagpayong Court</option>
+        <option value="Damayan Court">Damayan Court</option>
+        <option value="Balsangat Court">Balsangat Court</option>
+        <option value="Willarey Court">Willarey Court</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <label>Date:</label>
+      <input type="date" id="date">
+    </div>
+    <div class="col">
+      <label>Time Slot:</label>
+      <select id="time">
+        <option value="8:00 AM - 10:00 AM">8:00 AM - 10:00 AM</option>
+        <option value="10:00 AM - 12:00 PM">10:00 AM - 12:00 PM</option>
+        <option value="1:00 PM - 3:00 PM">1:00 PM - 3:00 PM</option>
+        <option value="3:00 PM - 5:00 PM">3:00 PM - 5:00 PM</option>
+      </select>
+    </div>
+    <div class="col">
+      <label>Participants:</label>
+      <input type="number" id="participants" placeholder="Number of people" min="1">
+    </div>
+    <div class="col">
+      <label>Payment Status:</label>
+      <select id="fee">
+        <option value="Fully Paid">Fully Paid</option>
+        <option value="Downpayment">Downpayment</option>
+      </select>
+    </div>
+    <div class="col">
+      <label>Amount Paid (Php):</label>
+      <input type="number" id="amount" placeholder="e.g. 500" min="0">
+    </div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div style="margin: 15px 0;">
+    <input type="button" id="btnSave" class="btn-action-main" onclick="addrecord()" value="Add Schedule">
+    <input type="button" id="btnCancel" class="btn-action-cancel" onclick="resetForm()" value="Cancel" style="display:none;">
+    <span id="output" style="font-weight: bold; margin-left: 10px;"></span>
+  </div>
+
+  <hr>
+
+  <!-- SEARCH AT SORT -->
+  <div class="row">
+    <div class="col" style="flex: 2;">
+      <input type="text" id="search" placeholder="Type to search borrower name, address, event, or court..." onkeyup="showRecords()">
+    </div>
+    <div class="col">
+      <select id="sortChoice" onchange="showRecords()">
+        <option value="default">Sort by: Default</option>
+        <option value="nameAZ">Sort by: Name (A - Z)</option>
+        <option value="participantsHigh">Sort by: Most Participants</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- DATA TABLE -->
+  <table>
+    <thead>
+      <tr>
+        <th>Borrower Information</th>
+        <th>Event Details</th>
+        <th>Venue</th>
+        <th>Schedule</th>
+        <th >People</th>
+        <th>Fee Info</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</div>
+
+<script>
+  // 1. LOCALSTORAGE LOAD AT DEFAULT DATA (Kapareho ng sa JSON#1 lab)
+  var list = JSON.parse(localStorage.getItem("brgy_db_sample"));
+
+  if (!list) {
+    list = [
+      {
+        name: "John Michel Engreso",
+        gender: "Male",
+        address: "Mt. Everest, Pinagbuhatan, Pasig City",
+        contact: "09123456789",
+        event: "Barangay Basketball Cup",
+        category: "Sports",
+        venue: "Nagpayong Court",
+        date: "2026-10-15",
+        time: "8:00 AM - 10:00 AM",
+        participants: 50,
+        fee: "Fully Paid",
+        amount: 500,
+        status: "Pending"
+      }
+    ];
+    localStorage.setItem("brgy_db_sample", JSON.stringify(list));
+  }
+
+  function addrecord() {
+    var editIndex = document.getElementById("editIndex").value;
+
+    var name = document.getElementById("name").value;
+    var gender = document.getElementById("gender").value;
+    var address = document.getElementById("address").value;
+    var contact = document.getElementById("contact").value;
+    var event = document.getElementById("event").value;
+    var category = document.getElementById("category").value;
+    var venue = document.getElementById("venue").value;
+    var date = document.getElementById("date").value;
+    var time = document.getElementById("time").value;
+    var participants = document.getElementById("participants").value;
+    var fee = document.getElementById("fee").value;
+    var amount = document.getElementById("amount").value;
+
+    if (name == "" || address == "" || contact == "" || event == "" || date == "" || participants == "" || amount == "") {
+      document.getElementById("output").innerHTML = "<font color='red'>Paki-fill out lahat ng fields!</font>";
+      return;
+    }
+
+    // Checking ng double-booking
+    for (var i = 0; i < list.length; i++) {
+      if (i != editIndex && list[i].venue == venue && list[i].date == date && list[i].time == time) {
+        document.getElementById("output").innerHTML = "<font color='red'>Conflict! May nakareserve na sa " + venue + " sa oras na ito.</font>";
+        return;
+      }
+    }
+
+    // Confirmation popup
+    var confirmSave = confirm("Sigurado ka bang nais mong i-save ang schedule na ito?");
+    if (!confirmSave) {
+      return;
+    }
+
+    if (editIndex == -1) {
+      list.push({
+        name: name,
+        gender: gender,
+        address: address,
+        contact: contact,
+        event: event,
+        category: category,
+        venue: venue,
+        date: date,
+        time: time,
+        participants: Number(participants),
+        fee: fee,
+        amount: Number(amount),
+        status: "Pending"
+      });
+      document.getElementById("output").innerHTML = "<font color='green'>Schedule added successfully!</font>";
+    } else {
+      list[editIndex].name = name;
+      list[editIndex].gender = gender;
+      list[editIndex].address = address;
+      list[editIndex].contact = contact;
+      list[editIndex].event = event;
+      list[editIndex].category = category;
+      list[editIndex].venue = venue;
+      list[editIndex].date = date;
+      list[editIndex].time = time;
+      list[editIndex].participants = Number(participants);
+      list[editIndex].fee = fee;
+      list[editIndex].amount = Number(amount);
+      document.getElementById("output").innerHTML = "<font color='green'>Schedule updated successfully!</font>";
+    }
+
+    localStorage.setItem("brgy_db_sample", JSON.stringify(list));
+    resetForm();
+    showRecords();
+  }
+
+  function editRow(index) {
+    var item = list[index];
+
+    document.getElementById("editIndex").value = index;
+    document.getElementById("name").value = item.name;
+    document.getElementById("gender").value = item.gender;
+    document.getElementById("address").value = item.address;
+    document.getElementById("contact").value = item.contact;
+    document.getElementById("event").value = item.event;
+    document.getElementById("category").value = item.category;
+    document.getElementById("venue").value = item.venue;
+    document.getElementById("date").value = item.date;
+    document.getElementById("time").value = item.time;
+    document.getElementById("participants").value = item.participants;
+    document.getElementById("fee").value = item.fee;
+    document.getElementById("amount").value = item.amount;
+
+    document.getElementById("formTitle").innerHTML = "Edit Schedule";
+    document.getElementById("btnSave").value = "Update Schedule";
+    document.getElementById("btnCancel").style.display = "inline-block";
+    document.getElementById("output").innerHTML = "";
+  }
+
+  // 4. MARK AS DONE
+  function markDone(index) {
+    list[index].status = "Completed";
+    localStorage.setItem("brgy_db_sample", JSON.stringify(list));
+    showRecords();
+  }
+
+  function deleteRow(index) {
+    if (confirm("Sigurado ka bang nais mong burahin ito?")) {
+      list.splice(index, 1);
+      localStorage.setItem("brgy_db_sample", JSON.stringify(list));
+      resetForm();
+      showRecords();
+    }
+  }
+
+  
+  function showRecords() {
+    var search = document.getElementById("search").value.toLowerCase();
+    var sortChoice = document.getElementById("sortChoice").value;
+    var tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+
+    var displayList = [];
+    for (var i = 0; i < list.length; i++) {
+      var item = list[i];
+      if (item.name.toLowerCase().indexOf(search) != -1 ||
+          item.address.toLowerCase().indexOf(search) != -1 ||
+          item.venue.toLowerCase().indexOf(search) != -1 ||
+          item.event.toLowerCase().indexOf(search) != -1) {
+        displayList.push({ data: item, originalIndex: i });
+      }
+    }
+
+    if (sortChoice == "nameAZ") {
+      displayList.sort(function(a, b) {
+        return a.data.name.localeCompare(b.data.name);
+      });
+    } else if (sortChoice == "participantsHigh") {
+      displayList.sort(function(a, b) {
+        return b.data.participants - a.data.participants;
+      });
+    }
+
+    for (var j = 0; j < displayList.length; j++) {
+      var record = displayList[j].data;
+      var index = displayList[j].originalIndex;
+
+      var badgeColor = "pending";
+      if (record.status == "Completed") {
+        badgeColor = "completed";
+      }
+
+      var doneButton = "";
+      if (record.status == "Pending") {
+        doneButton = "<button onclick='markDone(" + index + ")'>Done</button> ";
+      }
+
+      var row = "<tr>";
+      row += "<td><b>" + record.name + "</b> (" + record.gender + ")<br><small style='color:#64748b;'>" + record.address + "<br>" + record.contact + "</small></td>";
+      row += "<td>" + record.event + "<br><small style='color:#64748b;'>" + record.category + "</small></td>";
+      row += "<td>" + record.venue + "</td>";
+      row += "<td>" + record.date + "<br><small style='color:#64748b;'>" + record.time + "</small></td>";
+      row += "<td>" + record.participants + "</td>";
+      row += "<td><b>" + record.fee + "</b><br><small style='color:#0b4f6c;'>Php " + (record.amount || 0) + "</small></td>";
+      row += "<td><span class='badge " + badgeColor + "'>" + record.status + "</span></td>";
+      row += "<td>" +
+             doneButton +
+             "<button onclick='editRow(" + index + ")'>Edit</button> " +
+             "<button onclick='deleteRow(" + index + ")'>Delete</button>" +
+             "</td>";
+      row += "</tr>";
+
+      tbody.innerHTML += row;
+    }
+
+    var totalPeople = 0;
+    var totalFees = 0;
+
+    for (var k = 0; k < list.length; k++) {
+      totalPeople += list[k].participants;
+      totalFees += (list[k].amount || 0);
+    }
+
+    document.getElementById("totalEvents").innerHTML = list.length;
+    document.getElementById("totalPeople").innerHTML = totalPeople;
+    document.getElementById("totalFees").innerHTML = totalFees;
+  }
+
+  function resetForm() {
+    document.getElementById("editIndex").value = "-1";
+    document.getElementById("name").value = "";
+    document.getElementById("address").value = "";
+    document.getElementById("contact").value = "";
+    document.getElementById("event").value = "";
+    document.getElementById("date").value = "";
+    document.getElementById("participants").value = "";
+    document.getElementById("amount").value = "";
+    document.getElementById("formTitle").innerHTML = "Add Event Schedule";
+    document.getElementById("btnSave").value = "Add Schedule";
+    document.getElementById("btnCancel").style.display = "none";
+  }
+
+  showRecords();
+</script>
+
+</body>
+</html>
