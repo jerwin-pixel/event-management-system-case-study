@@ -7,14 +7,13 @@
       box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
-
     body {
       background-color: #f1f5f9;
       margin: 0;
       padding: 20px 30px;
       color: #1e293b;
     }
-
+   
     .box {
       background: #ffffff;
       width: 100%;
@@ -24,25 +23,22 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       border: 1px solid #e2e8f0;
     }
-
     h2 {
       color: #0f172a;
       margin: 0 0 15px 0;
       font-size: 24px;
     }
-
     hr {
       border: none;
       border-top: 1px solid #e2e8f0;
       margin: 15px 0 20px 0;
     }
-
+  
     .summary-bar {
       display: flex;
       gap: 15px;
       margin-bottom: 20px;
     }
-
     .stat-card {
       flex: 1;
       background: #f8fafc;
@@ -50,7 +46,6 @@
       border-radius: 8px;
       padding: 12px 18px;
     }
-
     .stat-card small {
       display: block;
       color: #64748b;
@@ -58,13 +53,12 @@
       text-transform: uppercase;
       font-weight: 700;
     }
-
     .stat-card span {
       font-size: 22px;
       font-weight: bold;
       color: #0b4f6c;
     }
-
+  
     .section-label {
       display: block;
       font-size: 12px;
@@ -74,17 +68,14 @@
       color: #0b4f6c;
       margin: 15px 0 8px 0;
     }
-
     .row {
       display: flex;
       gap: 15px;
       margin-bottom: 10px;
     }
-
     .col {
       flex: 1;
     }
-
     label {
       display: block;
       font-size: 12px;
@@ -92,7 +83,6 @@
       color: #475569;
       margin-bottom: 4px;
     }
-
     input[type="text"],
     input[type="date"],
     input[type="number"],
@@ -107,12 +97,11 @@
       outline: none;
       box-sizing: border-box;
     }
-
     input:focus, select:focus {
       border-color: #0b4f6c;
       box-shadow: 0 0 0 2px rgba(11, 79, 108, 0.15);
     }
-
+  
     .btn-action-main {
       padding: 10px 20px;
       font-size: 13px;
@@ -123,7 +112,6 @@
       background-color: #0b4f6c;
       color: white;
     }
-
     .btn-action-cancel {
       padding: 10px 20px;
       font-size: 13px;
@@ -135,14 +123,13 @@
       color: #475569;
       margin-left: 8px;
     }
-
+  
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 15px;
       border: 1px solid #e2e8f0;
     }
-
     th {
       background-color: #f8fafc;
       color: #475569;
@@ -153,28 +140,15 @@
       border: 1px solid #cbd5e1;
       text-align: left;
     }
-
     td {
       padding: 10px 12px;
       font-size: 13px;
       border: 1px solid #e2e8f0;
       color: #334155;
     }
-
     tr:hover td {
       background-color: #f8fafc;
     }
-
-    .badge {
-      display: inline-block;
-      padding: 4px 8px;
-      font-size: 11px;
-      font-weight: 700;
-      border-radius: 4px;
-    }
-    .pending { background: #fef3c7; color: #92400e; }
-    .completed { background: #dcfce7; color: #166534; }
-
     td button {
       padding: 5px 10px;
       font-size: 12px;
@@ -185,37 +159,24 @@
       margin-right: 4px;
       font-weight: 600;
     }
-
     td button:hover {
       background: #e2e8f0;
     }
   </style>
 </head>
 <body>
-
 <div class="box">
   <h2>Barangay Pinagbuhatan - Court Scheduling Portal</h2>
-
 
   <div class="summary-bar">
     <div class="stat-card">
       <small>Total Bookings</small>
       <span id="totalEvents">0</span>
     </div>
-    <div class="stat-card">
-      <small>Total Participants</small>
-      <span id="totalPeople">0</span>
-    </div>
-    <div class="stat-card">
-      <small>Total Fees Collected</small>
-      <span>Php <span id="totalFees">0</span></span>
-    </div>
   </div>
-
   <h4 id="formTitle" style="margin: 0 0 10px 0;">Add Event Schedule</h4>
   <input type="hidden" id="editIndex" value="-1">
-
-  <!-- REGISTRATION DETAILS -->
+ 
   <span class="section-label">1. Registration Information</span>
   <div class="row">
     <div class="col">
@@ -234,14 +195,12 @@
       <input type="text" id="contact" placeholder="09123456789">
     </div>
   </div>
-
   <div class="row">
     <div class="col">
       <label>Address:</label>
       <input type="text" id="address" placeholder="Mt. Everest, Pinagbuhatan, Pasig City">
     </div>
   </div>
-
 
   <span class="section-label">2. Schedule & Venue Details</span>
   <div class="row">
@@ -268,7 +227,6 @@
       </select>
     </div>
   </div>
-
   <div class="row">
     <div class="col">
       <label>Date:</label>
@@ -299,16 +257,13 @@
       <input type="number" id="amount" placeholder="e.g. 500" min="0">
     </div>
   </div>
-
  
   <div style="margin: 15px 0;">
     <input type="button" id="btnSave" class="btn-action-main" onclick="addrecord()" value="Add Schedule">
     <input type="button" id="btnCancel" class="btn-action-cancel" onclick="resetForm()" value="Cancel" style="display:none;">
     <span id="output" style="font-weight: bold; margin-left: 10px;"></span>
   </div>
-
   <hr>
-
  
   <div class="row">
     <div class="col" style="flex: 2;">
@@ -322,8 +277,7 @@
       </select>
     </div>
   </div>
-
-
+ 
   <table>
     <thead>
       <tr>
@@ -331,20 +285,16 @@
         <th>Event Details</th>
         <th>Venue</th>
         <th>Schedule</th>
-        <th >People</th>
+        <th>People</th>
         <th>Fee Info</th>
-        <th>Status</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody id="tableBody"></tbody>
   </table>
 </div>
-
 <script>
-
   var list = JSON.parse(localStorage.getItem("brgy_db_event"));
-
   if (!list) {
     list = [
       {
@@ -359,21 +309,19 @@
         time: "8:00 AM - 10:00 AM",
         participants: 50,
         fee: "Fully Paid",
-        amount: 500,
-        status: "Pending"
+        amount: 500
       }
     ];
     localStorage.setItem("brgy_db_event", JSON.stringify(list));
   }
 
   function addrecord() {
-    var editIndex = document.getElementById("editIndex").value;
-
-    var name = document.getElementById("name").value;
+    var editIndex = parseInt(document.getElementById("editIndex").value);
+    var name = document.getElementById("name").value.trim();
     var gender = document.getElementById("gender").value;
-    var address = document.getElementById("address").value;
-    var contact = document.getElementById("contact").value;
-    var event = document.getElementById("event").value;
+    var address = document.getElementById("address").value.trim();
+    var contact = document.getElementById("contact").value.trim();
+    var event = document.getElementById("event").value.trim();
     var category = document.getElementById("category").value;
     var venue = document.getElementById("venue").value;
     var date = document.getElementById("date").value;
@@ -382,24 +330,24 @@
     var fee = document.getElementById("fee").value;
     var amount = document.getElementById("amount").value;
 
-    if (name == "" || address == "" || contact == "" || event == "" || date == "" || participants == "" || amount == "") {
-      document.getElementById("output").innerHTML = "<font color='red'>Fill out this fields!</font>";
+    if (name === "" || address === "" || contact === "" || event === "" || date === "" || participants === "" || amount === "") {
+      document.getElementById("output").innerHTML = "<span style='color:red;'>Please fill out all fields!</span>";
       return;
     }
 
     for (var i = 0; i < list.length; i++) {
-      if (i != editIndex && list[i].venue == venue && list[i].date == date && list[i].time == time) {
-        document.getElementById("output").innerHTML = "<font color='red'>Conflict! it is already taken " + venue + " in this time.</font>";
+      if (i !== editIndex && list[i].venue === venue && list[i].date === date && list[i].time === time) {
+        document.getElementById("output").innerHTML = "<span style='color:red;'>Conflict! " + venue + " is already reserved for this time.</span>";
         return;
       }
     }
 
-    var confirmSave = confirm("Are you Sure to schedule this?");
+    var confirmSave = confirm("Are you sure you want to save this schedule?");
     if (!confirmSave) {
       return;
     }
 
-    if (editIndex == -1) {
+    if (editIndex === -1) {
       list.push({
         name: name,
         gender: gender,
@@ -412,10 +360,9 @@
         time: time,
         participants: Number(participants),
         fee: fee,
-        amount: Number(amount),
-        status: "Pending"
+        amount: Number(amount)
       });
-      document.getElementById("output").innerHTML = "<font color='green'>Schedule added successfully!</font>";
+      document.getElementById("output").innerHTML = "<span style='color:green;'>Schedule added successfully!</span>";
     } else {
       list[editIndex].name = name;
       list[editIndex].gender = gender;
@@ -429,7 +376,7 @@
       list[editIndex].participants = Number(participants);
       list[editIndex].fee = fee;
       list[editIndex].amount = Number(amount);
-      document.getElementById("output").innerHTML = "<font color='green'>Schedule updated successfully!</font>";
+      document.getElementById("output").innerHTML = "<span style='color:green;'>Schedule updated successfully!</span>";
     }
 
     localStorage.setItem("brgy_db_event", JSON.stringify(list));
@@ -437,9 +384,9 @@
     showRecords();
   }
 
-  //========================================= EDIT ========================================================= 
   function editRow(index) {
     var item = list[index];
+    if (!item) return;
 
     document.getElementById("editIndex").value = index;
     document.getElementById("name").value = item.name;
@@ -459,17 +406,11 @@
     document.getElementById("btnSave").value = "Update Schedule";
     document.getElementById("btnCancel").style.display = "inline-block";
     document.getElementById("output").innerHTML = "";
-  }
-//=======================================================    MARK AS DONE =====================================================================
-  function markDone(index) {
-    list[index].status = "Completed";
-    localStorage.setItem("brgy_db_event", JSON.stringify(list));
-    showRecords();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  //=======================================================   DELETE ROW =====================================================================
   function deleteRow(index) {
-    if (confirm("Sigurado ka bang nais mong burahin ito?")) {
+    if (confirm("Are you sure you want to delete this schedule?")) {
       list.splice(index, 1);
       localStorage.setItem("brgy_db_event", JSON.stringify(list));
       resetForm();
@@ -477,31 +418,28 @@
     }
   }
 
-//=======================================================    SHOW RECORDS =====================================================================
   function showRecords() {
     var search = document.getElementById("search").value.toLowerCase();
     var sortChoice = document.getElementById("sortChoice").value;
     var tbody = document.getElementById("tableBody");
     tbody.innerHTML = "";
 
-//=======================================================    SORT  =====================================================================
-    
     var displayList = [];
     for (var i = 0; i < list.length; i++) {
       var item = list[i];
-      if (item.name.toLowerCase().indexOf(search) != -1 ||
-          item.address.toLowerCase().indexOf(search) != -1 ||
-          item.venue.toLowerCase().indexOf(search) != -1 ||
-          item.event.toLowerCase().indexOf(search) != -1) {
+      if (item.name.toLowerCase().indexOf(search) !== -1 ||
+          item.address.toLowerCase().indexOf(search) !== -1 ||
+          item.venue.toLowerCase().indexOf(search) !== -1 ||
+          item.event.toLowerCase().indexOf(search) !== -1) {
         displayList.push({ data: item, originalIndex: i });
       }
     }
 
-    if (sortChoice == "nameAZ") {
+    if (sortChoice === "nameAZ") {
       displayList.sort(function(a, b) {
         return a.data.name.localeCompare(b.data.name);
       });
-    } else if (sortChoice == "participantsHigh") {
+    } else if (sortChoice === "participantsHigh") {
       displayList.sort(function(a, b) {
         return b.data.participants - a.data.participants;
       });
@@ -510,17 +448,7 @@
     for (var j = 0; j < displayList.length; j++) {
       var record = displayList[j].data;
       var index = displayList[j].originalIndex;
-//=======================================================  BUTTONS FOR COMPLETE AND PENDING   =====================================================================
-      var badgeColor = "pending";
-      if (record.status == "Completed") {
-        badgeColor = "completed";
-      }
 
-      var doneButton = "";
-      if (record.status == "Pending") {
-        doneButton = "<button onclick='markDone(" + index + ")'>Done</button> ";
-      }
-//=======================================================    FOR TABLES =====================================================================
       var row = "<tr>";
       row += "<td><b>" + record.name + "</b> (" + record.gender + ")<br><small style='color:#64748b;'>" + record.address + "<br>" + record.contact + "</small></td>";
       row += "<td>" + record.event + "<br><small style='color:#64748b;'>" + record.category + "</small></td>";
@@ -528,28 +456,15 @@
       row += "<td>" + record.date + "<br><small style='color:#64748b;'>" + record.time + "</small></td>";
       row += "<td>" + record.participants + "</td>";
       row += "<td><b>" + record.fee + "</b><br><small style='color:#0b4f6c;'>Php " + (record.amount || 0) + "</small></td>";
-      row += "<td><span class='badge " + badgeColor + "'>" + record.status + "</span></td>";
       row += "<td>" +
-             doneButton +
              "<button onclick='editRow(" + index + ")'>Edit</button> " +
              "<button onclick='deleteRow(" + index + ")'>Delete</button>" +
              "</td>";
       row += "</tr>";
-
       tbody.innerHTML += row;
     }
 
-    var totalPeople = 0;
-    var totalFees = 0;
-
-    for (var k = 0; k < list.length; k++) {
-      totalPeople += list[k].participants;
-      totalFees += (list[k].amount || 0);
-    }
-
     document.getElementById("totalEvents").innerHTML = list.length;
-    document.getElementById("totalPeople").innerHTML = totalPeople;
-    document.getElementById("totalFees").innerHTML = totalFees;
   }
 
   function resetForm() {
@@ -561,6 +476,13 @@
     document.getElementById("date").value = "";
     document.getElementById("participants").value = "";
     document.getElementById("amount").value = "";
+
+    document.getElementById("gender").selectedIndex = 0;
+    document.getElementById("category").selectedIndex = 0;
+    document.getElementById("venue").selectedIndex = 0;
+    document.getElementById("time").selectedIndex = 0;
+    document.getElementById("fee").selectedIndex = 0;
+
     document.getElementById("formTitle").innerHTML = "Add Event Schedule";
     document.getElementById("btnSave").value = "Add Schedule";
     document.getElementById("btnCancel").style.display = "none";
@@ -568,6 +490,5 @@
 
   showRecords();
 </script>
-
 </body>
 </html>
